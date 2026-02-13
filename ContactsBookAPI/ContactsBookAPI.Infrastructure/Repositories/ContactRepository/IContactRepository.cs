@@ -8,9 +8,10 @@ namespace ContactsBookAPI.Infrastructure.Repositories.ContactRepository
     public interface IContactRepository
     {
         Task<int> CreateContactAsync(Contact contact);
-        Task<bool> EmailExists(string email);
-        Task<Contact> GetContactByIdAsync(int id);
-        Task<List<Contact>> GetPagedContactList(int size, int pageNumber, string? searchedPhraze);
+        Task<bool> EmailExistsAsync(string email);
+        Task<Contact?> GetContactByIdAsync(int id);
+        Task<List<Contact>> GetPagedContactListAsync(int size, int pageNumber, string? searchedPhraze);
+        Task<int> GetTotalContactsCountAsync(string searchedPhraze);
         Task UpdateContactAsync(Contact contact);
         Task DeleteContactAsync(int id);
     }

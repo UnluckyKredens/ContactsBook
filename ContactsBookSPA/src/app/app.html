@@ -1,0 +1,62 @@
+<header class="header">
+  <div class="header__left">Contacts Book</div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Search email</mat-label>
+        <input matInput placeholder="name@email.net" (input)="search($event)" />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <button matButton="filled">Add</button>
+</header>
+<section class="list">
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+      <td mat-cell *matCellDef="let row">{{ row.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+      <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+      <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+      <td mat-cell *matCellDef="let row"><a href="mailto:{{row.email}}">{{ row.email }}</a></td>
+    </ng-container>
+    <ng-container matColumnDef="phoneNumber">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone Number</th>
+      <td mat-cell *matCellDef="let row"><a href="tel:+48{{row.phoneNumber}}">{{ row.phoneNumber }}</a></td>
+    </ng-container>
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
+      <td mat-cell *matCellDef="let row">{{ row.address }}</td>
+    </ng-container>
+        <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>City</th>
+      <td mat-cell *matCellDef="let row">{{ row.city }}</td>
+    </ng-container>
+    <ng-container matColumnDef="zip">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Zip</th>
+      <td mat-cell *matCellDef="let row">{{ row.zip }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter</td>
+    </tr>
+  </table>
+
+  <mat-paginator
+    [pageSizeOptions]="[10,25,50,100]"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
+</section>

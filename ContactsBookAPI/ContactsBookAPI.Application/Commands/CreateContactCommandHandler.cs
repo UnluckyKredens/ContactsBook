@@ -22,7 +22,7 @@ namespace ContactsBookAPI.Application.Commands
 
         public async Task<int> Handle(CreateContactCommand request, CancellationToken cancellationToken)
         {
-            if (await _contactRepository.EmailExists(request.Email))
+            if (await _contactRepository.EmailExistsAsync(request.Email))
             {
                 throw new UserOperationException("Email already exists");
             }
@@ -37,6 +37,7 @@ namespace ContactsBookAPI.Application.Commands
                 City = request.City,
                 Zip = request.Zip
             };
+
             return await _contactRepository.CreateContactAsync(body);
         }
     }

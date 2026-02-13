@@ -2,9 +2,7 @@
 using ContactsBookAPI.Domain.Exceptions;
 using ContactsBookAPI.Infrastructure.Repositories.ContactRepository;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace ContactsBookAPI.Application.Commands
 {
@@ -21,15 +19,14 @@ namespace ContactsBookAPI.Application.Commands
 
             var existingContact = await _contactRepository.GetContactByIdAsync(request.Id);
 
-            if(existingContact == null)
+            if (existingContact is null)
             {
-               throw new UserOperationException($"Contact with id {request.Id} not found.");
+                throw new UserOperationException($"Contact with id {request.Id} not found.");
             }
-            
-            if(existingContact?.Email != request.Email)
+
+            if (existingContact?.Email != request.Email)
             {
-                 
-                if(await _contactRepository.EmailExists(request.Email))
+                if (await _contactRepository.EmailExistsAsync(request.Email))
                 {
                     throw new UserOperationException($"A contact with email {request.Email} already exists.");
                 }

@@ -25,6 +25,7 @@ namespace ContactsBookAPI.Application.Commands
             }
 
             await _contactRepository.DeleteContactAsync(request.Id);
+
             return request.Id;
 
         }

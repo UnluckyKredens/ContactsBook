@@ -3,7 +3,6 @@ using ContactsBookAPI.Application.Queries;
 using ContactsBookAPI.Domain.Exceptions;
 using ContactsBookAPI.DTOs;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ContactsBookAPI.Controllers
@@ -25,13 +24,14 @@ namespace ContactsBookAPI.Controllers
             try
             {
                 var result = await _mediator.Send(command);
+
                 return Ok(result);
             }
+
             catch (UserOperationException)
             {
-                return BadRequest(new { message = "Email exists!" });
+                return BadRequest(new Message { message = "Email exists!" });
             }
-
         }
 
         [HttpPut("update")]
@@ -40,11 +40,13 @@ namespace ContactsBookAPI.Controllers
             try
             {
                 var res = await _mediator.Send(command);
+
                 return Ok(res);
             }
+
             catch (UserOperationException ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return BadRequest(new Message { message = ex.Message });
             }
         }
 
@@ -54,9 +56,12 @@ namespace ContactsBookAPI.Controllers
             try
             {
                 var command = new DeleteContactCommand { Id = id };
+
                 var res = await _mediator.Send(command);
+
                 return Ok(res);
             }
+
             catch (UserOperationException ex)
             {
                 return NotFound(new Message { message = ex.Message });
@@ -68,10 +73,18 @@ namespace ContactsBookAPI.Controllers
         {
             try
             {
-                var query = new GetContactListQuery { PageNumber = pageNumber, PageSize = pageSize, Search = search };
+                var query = new GetContactListQuery
+                { 
+                    PageNumber = pageNumber, 
+                    PageSize = pageSize, 
+                    Search = search 
+                };
+
                 var res = await _mediator.Send(query);
+
                 return Ok(res);
             }
+
             catch (UserOperationException ex)
             {
                 return BadRequest(new Message { message = ex.Message });
