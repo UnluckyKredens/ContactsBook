@@ -1,0 +1,14 @@
+<Solution>
+  <Project Path="ContactsBookAPI.Application/ContactsBookAPI.Application.csproj">
+    <BuildDependency Project="ContactsBookAPI.Domain/ContactsBookAPI.Domain.csproj" />
+    <BuildDependency Project="ContactsBookAPI.Infrastructure/ContactsBookAPI.Infrastructure.csproj" />
+  </Project>
+  <Project Path="ContactsBookAPI.Domain/ContactsBookAPI.Domain.csproj" />
+  <Project Path="ContactsBookAPI.Infrastructure/ContactsBookAPI.Infrastructure.csproj">
+    <BuildDependency Project="ContactsBookAPI.Domain/ContactsBookAPI.Domain.csproj" />
+  </Project>
+  <Project Path="ContactsBookAPI/ContactsBookAPI.csproj">
+    <BuildDependency Project="ContactsBookAPI.Application/ContactsBookAPI.Application.csproj" />
+    <BuildDependency Project="ContactsBookAPI.Infrastructure/ContactsBookAPI.Infrastructure.csproj" />
+  </Project>
+</Solution>
