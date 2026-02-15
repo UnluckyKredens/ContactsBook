@@ -7,7 +7,10 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ContactService } from './service/contact.service';
 import { ContactInterface } from './shared/interfaces/contact.interface';
-import { GetContactListInterface } from './shared/interfaces/getContactList.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateContactDialog } from './components/create-contact-dialog/create-contact-dialog';
+import { ToastrService } from 'ngx-toastr';
+import { UpdateContactDialog } from './components/update-contact-dialog/update-contact-dialog';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +27,8 @@ import { GetContactListInterface } from './shared/interfaces/getContactList.inte
 })
 export class App implements OnInit {
   service = inject(ContactService);
+  dialog = inject(MatDialog);
+  toastr = inject(ToastrService);
 
   displayedColumns: string[] = [
     'id',
@@ -34,6 +39,7 @@ export class App implements OnInit {
     'address',
     'city',
     'zip',
+    'options',
   ];
 
   dataSource = new MatTableDataSource<ContactInterface>();
@@ -41,23 +47,62 @@ export class App implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.service.getContactList();
+    this.getContactList();
   }
 
   ngAfterViewInit() {
-    this.dataSource.data = this.service.contacts().contacts ? this.service.contacts().contacts : [];
-    this.paginator.length = this.service.contacts().totalCount;
     this.paginator.page.subscribe((event) => {
       this.service.setSearchOptions({
         pageNumber: event.pageIndex + 1,
         pageSize: event.pageSize,
       });
     });
-
   }
 
-  updateList() {
-    this.service.getContactList();
+  openCreateContactDialog() {
+    this.dialog
+      .open(CreateContactDialog, { width: '60vw' })
+      .afterClosed()
+      .subscribe(() => {
+        this.getContactList();
+      });
+  }
+
+  openEditContactDialog(contact: ContactInterface) {
+    this.dialog
+      .open(UpdateContactDialog, {
+        width: '60vw',
+        data: contact,
+      })
+      .afterClosed()
+      .subscribe(() => {
+        this.getContactList();
+      });
+  }
+
+  deleteContact(contactId: number) {
+    this.service.deleteContact(contactId).subscribe({
+      next: () => {
+        this.getContactList();
+      },
+      error: (err) => {
+        console.log(err.message);
+        this.toastr.error('Error deleting contact');
+      },
+    });
+  }
+
+  getContactList() {
+    this.service.getContactList().subscribe({
+      next: (res) => {
+        this.dataSource.data = res.contacts;
+        this.paginator.length = res.totalCount;
+      },
+      error: (err) => {
+        console.log(err.message);
+        this.toastr.error('Error fetching contact list');
+      },
+    });
   }
 
   search(event: Event) {
@@ -66,6 +111,7 @@ export class App implements OnInit {
     this.service.setSearchOptions({ search: filterValue.trim().toLowerCase(), pageNumber: 1 });
 
     if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
+    this.getContactList();
   }
 
   onPageChange(event: any) {
@@ -73,5 +119,6 @@ export class App implements OnInit {
       pageNumber: event.pageIndex + 1,
       pageSize: event.pageSize,
     });
+    this.getContactList();
   }
 }

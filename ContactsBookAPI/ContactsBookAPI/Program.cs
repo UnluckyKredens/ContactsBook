@@ -21,6 +21,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
 var app = builder.Build();
@@ -29,7 +30,7 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-app.UseCors(cors => { cors.AllowAnyOrigin(); });
+app.UseCors(cors => { cors.AllowAnyOrigin(); cors.AllowAnyMethod(); cors.AllowAnyHeader(); });
 
 app.UseAuthorization();
 app.UseSwagger();

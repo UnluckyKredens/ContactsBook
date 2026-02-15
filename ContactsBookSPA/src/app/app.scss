@@ -1,24 +1,80 @@
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1% 2%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 
-    &__left {
-        font-size: 22px;
-        font-weight: bold;
-    }
+  padding: 16px 1%;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  &__left {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  mat-form-field {
+    width: 40%;
+  }
 }
 
 .list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  margin: 1%;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+.mat-mdc-header-cell {
+  font-weight: 600;
+}
 
+.mat-mdc-row:hover {
+  background: #f0f0f0;
+}
 
-.mat-mdc-form-field {
-  font-size: 14px;
-  width: 100%;
+a {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+mat-paginator {
+  margin-top: 10px;
+}
+
+@media (max-width: 1280px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    button {
+      align-self: flex-end;
+      width: 10%;
+    }
+  }
+  .list {
+    margin: 8px;
+    padding: 8px;
+    overflow-x: auto;
+  }
+
+  .mat-mdc-header-cell,
+  .mat-mdc-cell {
+    padding: 10px 12px;
+    white-space: nowrap;
+  }
+
+  mat-paginator {
+    align-self: stretch;
+    width: 100%;
+    margin-top: 10px;
+  }
 }

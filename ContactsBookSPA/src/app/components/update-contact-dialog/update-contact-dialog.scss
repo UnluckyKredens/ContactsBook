@@ -1,0 +1,12 @@
+.contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+
+  mat-form-field {
+    width: 90%;
+  }
+}

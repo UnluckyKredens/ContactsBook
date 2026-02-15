@@ -1,13 +1,11 @@
 <header class="header">
   <div class="header__left">Contacts Book</div>
-    <div>
-      <mat-form-field appearance="outline">
-        <mat-label>Search email</mat-label>
-        <input matInput placeholder="name@email.net" (input)="search($event)" />
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-    </div>
-    <button matButton="filled">Add</button>
+  <mat-form-field appearance="outline">
+    <mat-label>Search email</mat-label>
+    <input matInput placeholder="name@email.net" (input)="search($event)" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <button matButton="filled" (click)="openCreateContactDialog()">Add</button>
 </header>
 <section class="list">
   <table mat-table [dataSource]="dataSource">
@@ -28,17 +26,21 @@
 
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
-      <td mat-cell *matCellDef="let row"><a href="mailto:{{row.email}}">{{ row.email }}</a></td>
+      <td mat-cell *matCellDef="let row">
+        <a href="mailto:{{ row.email }}">{{ row.email }}</a>
+      </td>
     </ng-container>
     <ng-container matColumnDef="phoneNumber">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone Number</th>
-      <td mat-cell *matCellDef="let row"><a href="tel:+48{{row.phoneNumber}}">{{ row.phoneNumber }}</a></td>
+      <td mat-cell *matCellDef="let row">
+        <a href="tel:+48{{ row.phoneNumber }}">{{ row.phoneNumber }}</a>
+      </td>
     </ng-container>
     <ng-container matColumnDef="address">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Address</th>
       <td mat-cell *matCellDef="let row">{{ row.address }}</td>
     </ng-container>
-        <ng-container matColumnDef="city">
+    <ng-container matColumnDef="city">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>City</th>
       <td mat-cell *matCellDef="let row">{{ row.city }}</td>
     </ng-container>
@@ -46,7 +48,13 @@
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Zip</th>
       <td mat-cell *matCellDef="let row">{{ row.zip }}</td>
     </ng-container>
-
+    <ng-container matColumnDef="options">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Options</th>
+      <td mat-cell *matCellDef="let row">
+        <button mat-button (click)="openEditContactDialog(row)">Edit</button>
+        <button mat-button (click)="deleteContact(row.id)">Delete</button>
+      </td>
+    </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
@@ -56,7 +64,7 @@
   </table>
 
   <mat-paginator
-    [pageSizeOptions]="[10,25,50,100]"
+    [pageSizeOptions]="[10, 25, 50, 100]"
     (page)="onPageChange($event)"
   ></mat-paginator>
 </section>
