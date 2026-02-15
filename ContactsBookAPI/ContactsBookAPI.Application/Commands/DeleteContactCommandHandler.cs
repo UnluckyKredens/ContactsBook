@@ -19,7 +19,7 @@ namespace ContactsBookAPI.Application.Commands
         {
             var user = await _contactRepository.GetContactByIdAsync(request.Id);
 
-            if(user == null)
+            if (user == null)
             {
                 throw new UserOperationException("Contact not exist");
             }

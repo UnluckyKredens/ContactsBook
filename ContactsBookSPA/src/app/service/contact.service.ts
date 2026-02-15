@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { apiEndpoints } from '../shared/http/apiendpoints';
-import { GetContactListOptionsInterface } from '../shared/interfaces/getContactListOptions.interface';
-import { GetContactListInterface } from '../shared/interfaces/getContactList.interface';
+import { GetContactListOptionsInterface } from '../shared/interfaces/get-contact-list-options-interface';
+import { GetContactListInterface } from '../shared/interfaces/get-contact-list-interface';
 import { Observable } from 'rxjs';
-import { addContactInterface } from '../shared/interfaces/addContact.interface';
+import { addContactInterface } from '../shared/interfaces/add-contact-interface';
 import { ContactInterface } from '../shared/interfaces/contact.interface';
 
 @Injectable({ providedIn: 'root' })

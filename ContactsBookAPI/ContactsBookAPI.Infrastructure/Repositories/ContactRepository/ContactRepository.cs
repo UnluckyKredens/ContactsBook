@@ -7,8 +7,14 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace ContactsBookAPI.Infrastructure.Repositories.ContactRepository
 {
-    public class ContactRepository(DataContext _context) : IContactRepository
+    public class ContactRepository : IContactRepository
     {
+
+        private readonly DataContext _context;
+        public ContactRepository(DataContext context)
+        {
+            _context = context;
+        }
 
         public async Task<int> CreateContactAsync(Contact contact)
         {
@@ -23,22 +29,18 @@ namespace ContactsBookAPI.Infrastructure.Repositories.ContactRepository
         {
             var contact = await _context.Contacts.AnyAsync(c => c.Email == email);
 
-            if (contact)
-            {
-                return true;
-            }
-
-            else
-            {
-                return false;
-            }
+            return contact;
         }
 
         public async Task DeleteContactAsync(int id)
         {
-            _context.Contacts.Where(c => c.Id == id).ExecuteDelete();
+            var contact = await _context.Contacts.FirstOrDefaultAsync(c => c.Id == id);
 
-            await _context.SaveChangesAsync();
+            if (contact != null)
+            {
+                _context.Contacts.Remove(contact);
+                await _context.SaveChangesAsync();
+            }
         }
         public async Task<Contact?> GetContactByIdAsync(int id)
         {

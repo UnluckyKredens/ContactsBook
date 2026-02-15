@@ -4,7 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ContactService } from '../../service/contact.service';
-import { addContactInterface } from '../../shared/interfaces/addContact.interface';
+import { addContactInterface } from '../../shared/interfaces/add-contact-interface';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -31,12 +31,9 @@ export class CreateContactDialog {
     zip: new FormControl('', [Validators.required]),
   });
 
-  constructor() {}
-
   createContact() {
     if (this.contactForm.valid) {
       const contactData = this.contactForm.value;
-      console.log('Contact Data:', contactData);
       var body: addContactInterface = {
         firstName: contactData.firstName!,
         lastName: contactData.lastName!,
@@ -49,7 +46,6 @@ export class CreateContactDialog {
 
       this.service.addContact(body).subscribe({
         next: (res) => {
-          console.log('Contact created successfully:', res);
           this.toastr.success('Contact created successfully');
           this.dialog.closeAll();
         },
@@ -60,7 +56,7 @@ export class CreateContactDialog {
       });
 
     } else {
-      console.log('Form is invalid');
+      console.error('Form is invalid');
     }
   }
 }

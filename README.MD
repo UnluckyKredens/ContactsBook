@@ -4,9 +4,9 @@
 
 Projekt składa się z dwóch części:
 
--  **ContactsBookAPI** – backend ASP.NET Core + EF Core + SQL Server,
+-  **ContactsBookAPI** – .NET Core + EF Core + SQL Server + MediatR,
 
--  **ContactsBookSPA** – frontend Angular + Angular Material.
+-  **ContactsBookSPA** – Angular + Angular Material.
 
 Aplikacja pozwala tworzyć, edytować, usuwać i przeglądać kontakty z paginacją oraz filtrowaniem po emailu.
 
@@ -62,7 +62,13 @@ ContactsBook/
 
 │ └── ContactsBookAPI.Infrastructure/ # EF Core, repozytoria, migracje
 
-└── ContactsBookSPA/ # Angular
+│ └── ContactsBookSPA/ # Angular
+
+│ └── example_db.bak # Przykładowa baza danych
+
+│ └── SQL_insert_records.sql # Skrypt zapełniający baze przykładowymi rekordami
+
+
 
 ```
 
@@ -102,7 +108,7 @@ dotnet ef database update --project ContactsBookAPI.Infrastructure --startup-pro
 
 Przy utworzeniu nowej migracji użyj: 
 ```
-dotnet ef migrations add InitialCreate --project ContactsBookAPI.Infrastructure --startup-project ContactsBookAPI --output-dir Migrations
+dotnet ef migrations add NAZWA_MIGRACJI --project ContactsBookAPI.Infrastructure --startup-project ContactsBookAPI --output-dir Migrations
 ```
 
 

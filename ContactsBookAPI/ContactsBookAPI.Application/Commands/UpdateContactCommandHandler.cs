@@ -24,12 +24,9 @@ namespace ContactsBookAPI.Application.Commands
                 throw new UserOperationException($"Contact with id {request.Id} not found.");
             }
 
-            if (existingContact?.Email != request.Email)
-            {
-                if (await _contactRepository.EmailExistsAsync(request.Email))
-                {
+            if (existingContact?.Email != request.Email && await _contactRepository.EmailExistsAsync(request.Email))
+            {               
                     throw new UserOperationException($"A contact with email {request.Email} already exists.");
-                }
             }
 
             var contact = new Contact
@@ -43,6 +40,7 @@ namespace ContactsBookAPI.Application.Commands
                 City = request.City,
                 Zip = request.Zip
             };
+
             await _contactRepository.UpdateContactAsync(contact);
 
             return request.Id;
