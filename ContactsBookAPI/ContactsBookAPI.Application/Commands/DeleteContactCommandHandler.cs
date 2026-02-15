@@ -21,7 +21,7 @@ namespace ContactsBookAPI.Application.Commands
 
             if(user == null)
             {
-                throw new UserOperationException("User not exist");
+                throw new UserOperationException("Contact not exist");
             }
 
             await _contactRepository.DeleteContactAsync(request.Id);

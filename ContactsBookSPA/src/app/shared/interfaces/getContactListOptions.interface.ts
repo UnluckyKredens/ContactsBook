@@ -1,5 +1,5 @@
 export interface GetContactListOptionsInterface {
-    pageNumber: number,
-    pageSize: number,
-    search: string
+  pageNumber: number;
+  pageSize: number;
+  search: string;
 }

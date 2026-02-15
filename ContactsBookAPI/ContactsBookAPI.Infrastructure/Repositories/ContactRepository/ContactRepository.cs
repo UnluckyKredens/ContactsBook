@@ -60,6 +60,9 @@ namespace ContactsBookAPI.Infrastructure.Repositories.ContactRepository
             oldContact.LastName = contact.LastName;
             oldContact.Email = contact.Email;
             oldContact.PhoneNumber = contact.PhoneNumber;
+            oldContact.Address = contact.Address;
+            oldContact.City = contact.City;
+            oldContact.Zip = contact.Zip;
 
             await _context.SaveChangesAsync();
         }

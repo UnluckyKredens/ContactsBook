@@ -13,7 +13,7 @@ export class ContactService {
 
   searchOptions: GetContactListOptionsInterface = {
     pageNumber: 1,
-    pageSize: 15,
+    pageSize: 10,
     search: ''
   }
 

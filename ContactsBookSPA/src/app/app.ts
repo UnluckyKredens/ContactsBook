@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, AfterViewInit, ViewChild, viewChild } from '@angular/core';
+import { Component, inject, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,7 +25,7 @@ import { UpdateContactDialog } from './components/update-contact-dialog/update-c
   templateUrl: './app.html',
   styleUrls: ['./app.scss'],
 })
-export class App implements OnInit {
+export class App implements OnInit, AfterViewInit {
   service = inject(ContactService);
   dialog = inject(MatDialog);
   toastr = inject(ToastrService);
@@ -86,7 +86,7 @@ export class App implements OnInit {
         this.getContactList();
       },
       error: (err) => {
-        console.log(err.message);
+        console.error(err.message);
         this.toastr.error('Error deleting contact');
       },
     });
@@ -99,7 +99,7 @@ export class App implements OnInit {
         this.paginator.length = res.totalCount;
       },
       error: (err) => {
-        console.log(err.message);
+        console.error(err.message);
         this.toastr.error('Error fetching contact list');
       },
     });
@@ -110,7 +110,9 @@ export class App implements OnInit {
 
     this.service.setSearchOptions({ search: filterValue.trim().toLowerCase(), pageNumber: 1 });
 
-    if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
+    this.paginator.getNumberOfPages();
+    this.paginator.pageIndex = 0;
+
     this.getContactList();
   }
 

@@ -30,7 +30,7 @@ namespace ContactsBookAPI.Controllers
 
             catch (UserOperationException)
             {
-                return BadRequest(new Message { message = "Email exists!" });
+                return Conflict(new Message { message = "Email exists!" });
             }
         }
 

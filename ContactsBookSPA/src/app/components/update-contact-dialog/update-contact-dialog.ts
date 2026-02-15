@@ -16,7 +16,7 @@ import { I } from '@angular/cdk/keycodes';
   templateUrl: './update-contact-dialog.html',
   styleUrls: ['./update-contact-dialog.scss'],
 })
-export class UpdateContactDialog implements OnInit {
+export class UpdateContactDialog {
   fb = inject(FormBuilder);
   service = inject(ContactService);
   toastr = inject(ToastrService);
@@ -37,8 +37,6 @@ export class UpdateContactDialog implements OnInit {
     this.contactForm.patchValue(data);
   }
 
-  ngOnInit() {
-  }
 
   setContactData() {
     const contactData = {
@@ -71,7 +69,8 @@ export class UpdateContactDialog implements OnInit {
           this.dialog.closeAll();
       },
       error: (err: any) => {
-        this.toastr.error(err.error.message,'Failed to update contact');
+        console.error(err.message);
+        this.toastr.error('Failed to update contact');
       },
     });
   }
