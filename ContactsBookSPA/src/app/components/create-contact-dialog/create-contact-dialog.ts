@@ -25,10 +25,13 @@ export class CreateContactDialog {
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phoneNumber: new FormControl('', [Validators.required]),
+    phoneNumber: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^\s*(?:\+?\d[\d\s().-]*)\s*$/),
+    ]),
     address: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
-    zip: new FormControl('', [Validators.required]),
+    zip: new FormControl('', [Validators.required, Validators.pattern(/^\d{2}-\d{3}$/)]),
   });
 
   createContact() {
@@ -45,7 +48,7 @@ export class CreateContactDialog {
       };
 
       this.service.addContact(body).subscribe({
-        next: (res) => {
+        next: () => {
           this.toastr.success('Contact created successfully');
           this.dialog.closeAll();
         },
@@ -54,7 +57,6 @@ export class CreateContactDialog {
           this.toastr.error('Failed to create contact');
         },
       });
-
     } else {
       console.error('Form is invalid');
     }

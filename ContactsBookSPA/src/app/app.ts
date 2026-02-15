@@ -61,7 +61,10 @@ export class App implements OnInit, AfterViewInit {
 
   openCreateContactDialog() {
     this.dialog
-      .open(CreateContactDialog, { width: '60vw' })
+      .open(CreateContactDialog, {
+        width: '60vw',
+        maxHeight: '95vh',
+      })
       .afterClosed()
       .subscribe(() => {
         this.getContactList();
@@ -72,6 +75,7 @@ export class App implements OnInit, AfterViewInit {
     this.dialog
       .open(UpdateContactDialog, {
         width: '60vw',
+        maxHeight: '95vh',
         data: contact,
       })
       .afterClosed()
@@ -84,9 +88,12 @@ export class App implements OnInit, AfterViewInit {
     this.service.deleteContact(contactId).subscribe({
       next: () => {
         this.getContactList();
+
+        if (this.paginator.length - 1 <= this.paginator.pageIndex * this.paginator.pageSize) {
+          this.paginator.previousPage();
+        }
       },
       error: (err) => {
-        console.error(err.message);
         this.toastr.error('Error deleting contact');
       },
     });
@@ -99,7 +106,6 @@ export class App implements OnInit, AfterViewInit {
         this.paginator.length = res.totalCount;
       },
       error: (err) => {
-        console.error(err.message);
         this.toastr.error('Error fetching contact list');
       },
     });

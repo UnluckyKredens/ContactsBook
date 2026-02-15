@@ -21,22 +21,24 @@ export class UpdateContactDialog {
   service = inject(ContactService);
   toastr = inject(ToastrService);
   dialog = inject(MatDialog);
-  
+
   contactForm = this.fb.group({
     id: new FormControl({ value: '', disabled: true }, [Validators.required]),
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phoneNumber: new FormControl('', [Validators.required]),
+    phoneNumber: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^\s*(?:\+?\d[\d\s().-]*)\s*$/),
+    ]),
     address: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
-    zip: new FormControl('', [Validators.required]),
+    zip: new FormControl('', [Validators.required, Validators.pattern(/^\d{2}-\d{3}$/)]),
   });
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.contactForm.patchValue(data);
   }
-
 
   setContactData() {
     const contactData = {
@@ -65,11 +67,10 @@ export class UpdateContactDialog {
 
     this.service.updateContact(body).subscribe({
       next: () => {
-          this.toastr.success('Contact updated successfully');
-          this.dialog.closeAll();
+        this.toastr.success('Contact updated successfully');
+        this.dialog.closeAll();
       },
       error: (err: any) => {
-        console.error(err.message);
         this.toastr.error('Failed to update contact');
       },
     });

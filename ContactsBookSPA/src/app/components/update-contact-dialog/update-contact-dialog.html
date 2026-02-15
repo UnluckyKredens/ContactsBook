@@ -1,9 +1,9 @@
 <form [formGroup]="contactForm" class="contact">
   <h1>Update Contact</h1>
 
-    <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill">
     <mat-label>ID</mat-label>
-    <input matInput formControlName="id" required readonly  />
+    <input matInput formControlName="id" required readonly />
   </mat-form-field>
 
   <mat-form-field appearance="fill">
@@ -39,6 +39,9 @@
     @if (contactForm.get('phoneNumber')?.hasError('required')) {
       <mat-error>Phone Number is required</mat-error>
     }
+    @if (contactForm.get('phoneNumber')?.hasError('pattern')) {
+      <mat-error>Invalid Phone Number format</mat-error>
+    }
   </mat-form-field>
 
   <mat-form-field appearance="fill">
@@ -62,6 +65,9 @@
     <input matInput formControlName="zip" required />
     @if (contactForm.get('zip')?.hasError('required')) {
       <mat-error>Zip Code is required</mat-error>
+    }
+    @if (contactForm.get('zip')?.hasError('pattern')) {
+      <mat-error>Invalid Zip Code format</mat-error>
     }
   </mat-form-field>
 
